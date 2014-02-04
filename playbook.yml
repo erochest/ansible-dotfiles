@@ -32,38 +32,54 @@
 
     - name: mkdir ~/.ssh
       file: path=/home/{{ username }}/.ssh state=directory owner={{ username }} mode=0700
+      when: username is defined
     - name: cp ~/.ssh/config
       copy: src=files/ssh/config dest=/home/{{ username }}/.ssh/config
+      when: username is defined
     - name: chmod ~/.ssh/config
       file: path=/home/{{ username }}/.ssh/config state=file owner={{ username }} mode=0700
+      when: username is defined
     - name: cp id_rsa
       copy: src={{ ssh_dir }}/id_rsa dest=/home/{{ username }}/.ssh/id_rsa
+      when: username is defined and ssh_dir is defined
     - name: chmod id_rsa
       file: path=/home/{{ username }}/.ssh/id_rsa state=file owner={{ username }} mode=0700
+      when: username is defined
     - name: cp id_rsa.pub
       copy: src={{ ssh_dir }}/id_rsa.pub dest=/home/{{ username }}/.ssh/id_rsa.pub
+      when: username is defined and ssh_dir is defined
     - name: chmod id_rsa.pub
       file: path=/home/{{ username }}/.ssh/id_rsa.pub state=file owner={{ username }} mode=0700
+      when: username is defined
 
     - name: git clone dots
       git: repo=git://github.com/Ceasar/dots.git dest=/home/{{ username }}/dots
+      when: username is defined
     - name: mkdir dots/plugins
       file: path=/home/{{ username }}/dots/plugins state=directory
+      when: username is defined
     - name: git clone dotfiles
       git: repo={{ dotfiles }} dest=/home/{{ username }}/dots/plugins/dotfiles version=master
+      when: username is defined and dotfiles is defined
     - name: git submodule init
       command: /usr/bin/git submodule init chdir=/home/{{ username }}/dots/plugins/dotfiles
+      when: username is defined
     - name: git submodule update
       command: /usr/bin/git submodule update chdir=/home/{{ username }}/dots/plugins/dotfiles
+      when: username is defined
     - name: pip install requirements
       pip: requirements=/home/{{ username }}/dots/requirements.txt extra_args='--user'
+      when: username is defined
     - name: rm .bashrc
       file: path=/home/{{ username }}/.bashrc state=absent
+      when: username is defined
     - name: fab link:plugins
       shell: $HOME/.local/bin/fab link:plugins chdir=/home/{{ username }}/dots
+      when: username is defined
 
     - name: mkdir ~/.bash_it/*/enabled
       file: path=/home/{{ username }}/.bash_it/{{ item }}/enabled state=directory
+      when: username is defined
       with_items:
         - aliases
         - plugins
@@ -71,23 +87,28 @@
       file: src=/home/{{ username }}/.bash_it/plugins/available/{{ item }}.plugin.bash
             dest=/home/{{ username }}/.bash_it/plugins/enabled/{{ item }}.plugin.bash
             state=link
+      when: username is defined
       with_items: bash_it_plugins
     - name: bash_it aliases
       file: src=/home/{{ username }}/.bash_it/aliases/available/{{ item }}.aliases.bash
             dest=/home/{{ username }}/.bash_it/aliases/enabled/{{ item }}.aliases.bash
             state=link
+      when: username is defined
       with_items: bash_it_aliases
 
     - name: ln ~/.vimrc
       file: src=/home/{{ username }}/.vim/vimrc
             dest=/home/{{ username }}/.vimrc
             state=link
+      when: username is defined
     - name: mkdir ~/.vim/bundle
       file: path=/home/{{ username }}/.vim/bundle state=directory
+      when: username is defined
     - name: git clone vundle
       git: repo=https://github.com/gmarik/vundle.git
            dest=/home/{{ username }}/.vim/bundle/vundle
            version=master
+      when: username is defined
     - name: vim +BundleInstall
       shell: vim +BundleInstall +qall
 
