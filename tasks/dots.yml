@@ -1,0 +1,25 @@
+---
+- name: git clone dots
+  git: repo=git://github.com/Ceasar/dots.git dest=/home/{{ username }}/dots
+  when: username is defined
+- name: mkdir dots/plugins
+  file: path=/home/{{ username }}/dots/plugins state=directory
+  when: username is defined
+- name: git clone dotfiles
+  git: repo={{ dotfiles }} dest=/home/{{ username }}/dots/plugins/dotfiles version=master
+  when: username is defined and dotfiles is defined
+- name: git submodule init
+  command: /usr/bin/git submodule init chdir=/home/{{ username }}/dots/plugins/dotfiles
+  when: username is defined
+- name: git submodule update
+  command: /usr/bin/git submodule update chdir=/home/{{ username }}/dots/plugins/dotfiles
+  when: username is defined
+- name: pip install requirements
+  pip: requirements=/home/{{ username }}/dots/requirements.txt extra_args='--user'
+  when: username is defined
+- name: rm .bashrc
+  file: path=/home/{{ username }}/.bashrc state=absent
+  when: username is defined
+- name: fab link:plugins
+  shell: $HOME/.local/bin/fab link:plugins chdir=/home/{{ username }}/dots
+  when: username is defined

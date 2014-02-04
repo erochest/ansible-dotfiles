@@ -1,0 +1,22 @@
+---
+- name: mkdir ~/.ssh
+  file: path=/home/{{ username }}/.ssh state=directory owner={{ username }} mode=0700
+  when: username is defined
+- name: cp ~/.ssh/config
+  copy: src=files/ssh/config dest=/home/{{ username }}/.ssh/config
+  when: username is defined
+- name: chmod ~/.ssh/config
+  file: path=/home/{{ username }}/.ssh/config state=file owner={{ username }} mode=0700
+  when: username is defined
+- name: cp id_rsa
+  copy: src={{ ssh_dir }}/id_rsa dest=/home/{{ username }}/.ssh/id_rsa
+  when: username is defined and ssh_dir is defined
+- name: chmod id_rsa
+  file: path=/home/{{ username }}/.ssh/id_rsa state=file owner={{ username }} mode=0700
+  when: username is defined
+- name: cp id_rsa.pub
+  copy: src={{ ssh_dir }}/id_rsa.pub dest=/home/{{ username }}/.ssh/id_rsa.pub
+  when: username is defined and ssh_dir is defined
+- name: chmod id_rsa.pub
+  file: path=/home/{{ username }}/.ssh/id_rsa.pub state=file owner={{ username }} mode=0700
+  when: username is defined

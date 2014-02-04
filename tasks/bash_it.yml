@@ -1,0 +1,19 @@
+---
+- name: mkdir ~/.bash_it/*/enabled
+  file: path=/home/{{ username }}/.bash_it/{{ item }}/enabled state=directory
+  when: username is defined
+  with_items:
+    - aliases
+    - plugins
+- name: bash_it plugins
+  file: src=/home/{{ username }}/.bash_it/plugins/available/{{ item }}.plugin.bash
+        dest=/home/{{ username }}/.bash_it/plugins/enabled/{{ item }}.plugin.bash
+        state=link
+  when: username is defined
+  with_items: bash_it_plugins
+- name: bash_it aliases
+  file: src=/home/{{ username }}/.bash_it/aliases/available/{{ item }}.aliases.bash
+        dest=/home/{{ username }}/.bash_it/aliases/enabled/{{ item }}.aliases.bash
+        state=link
+  when: username is defined
+  with_items: bash_it_aliases

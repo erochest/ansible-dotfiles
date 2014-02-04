@@ -1,0 +1,16 @@
+---
+- name: ln ~/.vimrc
+  file: src=/home/{{ username }}/.vim/vimrc
+        dest=/home/{{ username }}/.vimrc
+        state=link
+  when: username is defined
+- name: mkdir ~/.vim/bundle
+  file: path=/home/{{ username }}/.vim/bundle state=directory
+  when: username is defined
+- name: git clone vundle
+  git: repo=https://github.com/gmarik/vundle.git
+        dest=/home/{{ username }}/.vim/bundle/vundle
+        version=master
+  when: username is defined
+- name: vim +BundleInstall
+  shell: vim +BundleInstall +qall
