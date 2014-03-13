@@ -3,6 +3,7 @@
   git: repo=git://github.com/Ceasar/dots.git dest=/home/{{ username }}/dots
   when: username is defined
 - name: install dependencies
+  sudo: true
   pip: chdir=/home/{{ username }}/dots requirements=requirements.txt
 - name: mkdir dots/plugins
   file: path=/home/{{ username }}/dots/plugins state=directory
@@ -23,5 +24,5 @@
   file: path=/home/{{ username }}/.bashrc state=absent
   when: username is defined
 - name: fab link:plugins
-  shell: $HOME/.local/bin/fab link:plugins chdir=/home/{{ username }}/dots
+  command: fab link:plugins chdir=/home/{{ username }}/dots
   when: username is defined
