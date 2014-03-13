@@ -2,11 +2,13 @@
 - name: git clone dots
   git: repo=git://github.com/Ceasar/dots.git dest=/home/{{ username }}/dots
   when: username is defined
+- name: install dependencies
+  pip: chdir=/home/{{ username }}/dots requirements=requirements.txt
 - name: mkdir dots/plugins
   file: path=/home/{{ username }}/dots/plugins state=directory
   when: username is defined
 - name: git clone dotfiles
-  git: repo={{ dotfiles }} dest=/home/{{ username }}/dots/plugins/dotfiles version=master
+  command: git clone --recursive {{ dotfiles }} /home/{{ username }}/dots/plugins/dotfiles
   when: username is defined and dotfiles is defined
 - name: git submodule init
   command: /usr/bin/git submodule init chdir=/home/{{ username }}/dots/plugins/dotfiles
