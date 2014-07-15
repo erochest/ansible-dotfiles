@@ -9,11 +9,11 @@
   file: src=/home/{{ username }}/.bash_it/plugins/available/{{ item }}.plugin.bash
         dest=/home/{{ username }}/.bash_it/plugins/enabled/{{ item }}.plugin.bash
         state=link
-  when: username is defined
+  when: username is defined and bash_it_plugins is defined
   with_items: bash_it_plugins
 - name: bash_it aliases
   file: src=/home/{{ username }}/.bash_it/aliases/available/{{ item }}.aliases.bash
         dest=/home/{{ username }}/.bash_it/aliases/enabled/{{ item }}.aliases.bash
         state=link
-  when: username is defined
+  when: username is defined and bash_it_aliases is defined
   with_items: bash_it_aliases
