@@ -14,3 +14,8 @@
   when: username is defined
 - name: vim +BundleInstall
   shell: vim +BundleInstall +qall
+- name: make vimproc
+  shell: make
+  args:
+    chdir: /home/{{ username }}/.vim/bundle/vimproc.vim
+  when: username is defined
