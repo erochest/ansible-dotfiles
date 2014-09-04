@@ -1,6 +1,9 @@
 ---
 - name: git clone dots
-  git: repo=git://github.com/Ceasar/dots.git dest=/home/{{ username }}/dots
+  git: >
+    repo=git://github.com/Ceasar/dots.git
+    dest=/home/{{ username }}/dots
+    accept_hostkey=yes
   when: username is defined
 - name: install dependencies
   sudo: true
