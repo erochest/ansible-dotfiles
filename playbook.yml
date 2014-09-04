@@ -6,3 +6,4 @@
     - include: tasks/dots.yml
     - include: tasks/bash_it.yml
     - include: tasks/vim.yml
+    - include: tasks/tmux.yml

@@ -1,0 +1,5 @@
+---
+- name: install tmux packages
+  command: ./install_plugins.sh chdir=/home/{{ username }}/.tmux/plugins/tpm/scripts
+  args:
+    creates: /home/{{ username }}/.tmux/plugins/tpm/resurrect
