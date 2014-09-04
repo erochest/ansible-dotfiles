@@ -1,4 +1,4 @@
----
+j--
 - name: update apt cache
   apt: update_cache=yes
   sudo: true
@@ -21,6 +21,7 @@
     - libxml2-dev
     - ruby-bundler
     - tree
+    - procps
 - name: install autoenv
   pip: name=autoenv state=latest
   sudo: true
