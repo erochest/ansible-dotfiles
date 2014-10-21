@@ -1,4 +1,9 @@
 ---
+- name: clear out existing tpm
+  file: >
+    path=/home/{{ username }}/.tmux/plugins/tpm
+    state=absent
+    force=yes
 - name: install tpm
   git: repo=https://github.com/tmux-plugins/tpm
        dest=/home/{{ username }}/.tmux/plugins/tpm
