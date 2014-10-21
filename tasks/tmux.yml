@@ -1,5 +1,10 @@
 ---
-- name: install tmux packages
-  command: ./install_plugins.sh chdir=/home/{{ username }}/.tmux/plugins/tpm/scripts
-  args:
-    creates: /home/{{ username }}/.tmux/plugins/tpm/resurrect
+- name: install tpm
+  git: repo=https://github.com/tmux-plugins/tpm
+       dest=/home/{{ username }}/.tmux/plugins/tpm
+
+# - name: install tmux packages
+  # command: /home/{{ username }}/.tmux/plugins/tpm/scripts/install_plugins.sh
+           # chdir=/home/{{ username }}/.tmux/plugins/tpm/scripts
+  # args:
+    # creates: /home/{{ username }}/.tmux/plugins/tpm/resurrect
