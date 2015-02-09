@@ -19,7 +19,6 @@
     - curl
     - default-jdk
     - libxml2-dev
-    - ruby-bundler
     - tree
     - procps
 - name: install autoenv
