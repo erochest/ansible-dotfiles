@@ -4,6 +4,7 @@
     repo=git://github.com/Ceasar/dots.git
     dest=/home/{{ username }}/dots
     accept_hostkey=yes
+    force=yes
   when: username is defined
 - name: install dependencies
   sudo: true
@@ -16,6 +17,7 @@
        recursive=yes
        dest=/home/{{ username }}/dots/plugins/dotfiles
        ssh_opts="-o StrictHostKeyChecking=no"
+       force=yes
   when: username is defined and dotfiles is defined
 - name: pip install requirements
   pip: requirements=/home/{{ username }}/dots/requirements.txt extra_args='--user'
