@@ -21,6 +21,7 @@
     - libxml2-dev
     - tree
     - procps
+    - unzip
 - name: install autoenv
   pip: name=autoenv state=latest
   sudo: true
