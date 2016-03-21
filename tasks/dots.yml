@@ -7,7 +7,7 @@
     force=yes
   when: username is defined
 - name: install dependencies
-  sudo: true
+  become: true
   pip: chdir=/home/{{ username }}/dots requirements=requirements.txt
 - name: mkdir dots/plugins
   file: path=/home/{{ username }}/dots/plugins state=directory
